@@ -1,0 +1,25 @@
+{
+  "name": "press-start",
+  "version": "0.0.0",
+  "description": "A tiny phaser boilerplate",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lastpotion/press-start.git"
+  },
+  "keywords": [
+    "phaser",
+    "game",
+    "template",
+    "boilerplate"
+  ],
+  "author": "Aitor Porro (@lastpotion)",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/lastpotion/press-start/issues"
+  },
+  "homepage": "https://github.com/lastpotion/press-start#readme"
+}
