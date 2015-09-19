@@ -4,7 +4,7 @@ var gulp = require('gulp'),
 
 var LIB_FILES = ['node_modules/phaser/build/phaser.min.js'],
   HTML_FILES = ['src/**/*.html'],
-  STYLE_FILES = ['src/levels/**/*.scss'],
+  STYLE_FILES = ['src/styles/**/*.scss'],
   SCRIPT_FILES = ['src/scripts/**/*.js'],
   IMG_FILES = ['src/assets/images/**/*'],
   LEVEL_FILES = ['src/levels/**/*'];
@@ -21,7 +21,7 @@ gulp.task('libs', function() {
 });
 
 gulp.task('styles', function() {
-  return $.sass(STYLE_FILES, {
+  return $.rubySass(STYLE_FILES, {
       style: 'expanded'
     })
     .pipe($.autoprefixer('last 2 version'))
@@ -29,7 +29,7 @@ gulp.task('styles', function() {
     .pipe($.rename({
       suffix: '.min'
     }))
-    .pipe($.minifycss())
+    .pipe($.minifyCss())
     .pipe(gulp.dest(PUB_STYLES))
     .pipe($.notify({
       message: 'Styles complete'
@@ -83,7 +83,5 @@ gulp.task('live', function() {
 });
 
 gulp.task('serve', ['watch', 'live']);
-gulp.task('deploy', ['clean'], function() {
-  gulp.start('styles', 'libs', 'scripts', 'images');
-});
+gulp.task('build', ['styles', 'libs', 'scripts', 'images']);
 gulp.task('default', ['serve']);
