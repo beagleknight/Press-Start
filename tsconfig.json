@@ -1,0 +1,30 @@
+{
+    "version": "1.5.0-beta",
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "isolatedModules": false,
+        "jsx": "react",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "declaration": false,
+        "noImplicitAny": false,
+        "removeComments": true,
+        "noLib": false,
+        "preserveConstEnums": true,
+        "suppressImplicitAnyIndexErrors": true
+    },
+    "filesGlob": [
+        "./**/*.ts",
+        "./**/*.tsx",
+        "!./node_modules/**/*"
+    ],
+    "files": [
+        "./node_modules/phaser/typescript/p2.d.ts",
+        "./node_modules/phaser/typescript/phaser.comments.d.ts",
+        "./node_modules/phaser/typescript/phaser.d.ts",
+        "./node_modules/phaser/typescript/pixi.comments.d.ts",
+        "./node_modules/phaser/typescript/pixi.d.ts",
+        "./src/scripts/game/game.ts",
+    ]
+}

@@ -5,19 +5,27 @@ var gulp = require('gulp'),
 var LIB_FILES = ['node_modules/phaser/build/phaser.min.js'],
   HTML_FILES = ['src/**/*.html'],
   STYLE_FILES = ['src/styles/**/*.scss'],
-  SCRIPT_FILES = ['src/scripts/**/*.js'],
-  IMG_FILES = ['src/assets/images/**/*'],
+  SCRIPT_FILES = ['src/scripts/**/*.ts'],
+  ASSETS_FILES = ['src/assets/**/*'],
   LEVEL_FILES = ['src/levels/**/*'];
 
-var PUB_STYLES = 'public/css',
+var PUB = 'public',
+  PUB_STYLES = 'public/css',
   PUB_SCRIPTS = 'public/js',
-  PUB_IMG = 'public/assets/images';
+  PUB_ASSETS = 'public/assets';
+
+
+gulp.task('html', function () {
+    gulp.src(HTML_FILES)
+        .pipe(gulp.dest(PUB))
+        .pipe($.connect.reload());
+});
 
 gulp.task('libs', function() {
     gulp.src(LIB_FILES)
-      .pipe(concat('libs.js'))
+      .pipe($.concat('libs.js'))
       .pipe(gulp.dest(PUB_SCRIPTS))
-      .pipe(connect.reload());
+      .pipe($.connect.reload());
 });
 
 gulp.task('styles', function() {
@@ -31,57 +39,45 @@ gulp.task('styles', function() {
     }))
     .pipe($.minifyCss())
     .pipe(gulp.dest(PUB_STYLES))
-    .pipe($.notify({
-      message: 'Styles complete'
-    }));
+    .pipe($.connect.reload());
 });
+
 
 gulp.task('scripts', function() {
-  return gulp.src('SCRIPT_FILES')
-    .pipe($.jshint('.jshintrc'))
-    .pipe($.jshint.reporter('default'))
-    .pipe($.concat('main.js'))
-    .pipe(gulp.dest(PUB_SCRIPTS))
-    .pipe($.rename({
-      suffix: '.min'
-    }))
-    .pipe($.uglify())
-    .pipe(gulp.dest(PUB_SCRIPTS))
-    .pipe($.notify({
-      message: 'Scripts complete'
-    }));
+    var tsResult = gulp.src(SCRIPT_FILES)
+        .pipe($.typescript({
+            noImplicitAny: true,
+            out: 'main.js'
+        }));
+    return tsResult.js
+        .pipe(gulp.dest(PUB_SCRIPTS))
+        .pipe($.connect.reload());
 });
 
-gulp.task('images', function() {
-  return gulp.src('IMG_FILES')
-    .pipe($.cache($.imagemin({
-      optimizationLevel: 5,
-      progressive: true,
-      interlaced: true
-    })))
-    .pipe(gulp.dest(PUB_IMG))
-    .pipe($.notify({
-      message: 'Images complete'
-    }));
+gulp.task('assets', function() {
+  return gulp.src(ASSETS_FILES)
+    .pipe(gulp.dest(PUB_ASSETS))
+    .pipe($.connect.reload());
 });
 
 gulp.task('clean', function(cb) {
-  del([PUB_STYLES , PUB_SCRIPTS, PUB_IMG], cb);
+  del([PUB, PUB_STYLES , PUB_SCRIPTS, PUB_ASSSETS], cb);
 });
 
 gulp.task('watch', function() {
   gulp.watch( STYLE_FILES, ['styles']);
   gulp.watch( SCRIPT_FILES, ['scripts']);
-  gulp.watch( IMG_FILES, ['images']);
+  gulp.watch( ASSETS_FILES, ['assets']);
+  gulp.watch( HTML_FILES, ['html']);
 });
 
 gulp.task('live', function() {
   $.connect.server({
-    root: 'src',
+    root: 'public',
     livereload: true
   });
 });
 
-gulp.task('serve', ['watch', 'live']);
-gulp.task('build', ['styles', 'libs', 'scripts', 'images']);
+gulp.task('serve', ['build','watch', 'live']);
+gulp.task('build', ['html','styles', 'libs', 'scripts', 'assets']);
 gulp.task('default', ['serve']);

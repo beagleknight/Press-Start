@@ -1,21 +1,47 @@
+/************
+* Imports
+*************/
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,700,300);
 
-/* ==========================================================================
-	 Press-Start styles
-   ========================================================================== */
+/************
+* Variables
+*************/
 
+/* Colors */
+$white :  #FFFFFF;
+$red   :  #D72B37;
+$gray  :  #8A8A8A;
 
+/************
+* Styles
+*************/
+*{box-sizing: border-box;}
 
+body{
+  background-image: url('../assets/images/dash.png');
+  font-smoothing: antialiased;
+  font-family: Roboto,sans-serif;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+header{
+  margin-top:40px;
+  a{
+    color:$red;
+  }
+  span{
+    color:$gray;
+    font-weight:300;
+  }
+  p{
+    margin-top:20px;
+    font-weight:400;
+    font-size:16px;
+  }
+}
+.phaser{
+	width:768px;
+	margin:20px auto;
+}
+.text-center{
+	text-align:center;
+}
