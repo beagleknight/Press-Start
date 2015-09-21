@@ -29,9 +29,10 @@ gulp.task('libs', function() {
 });
 
 gulp.task('styles', function() {
-  return $.rubySass(STYLE_FILES, {
+  return gulp.src(STYLE_FILES)
+    .pipe($.sass({
       style: 'expanded'
-    })
+    }))
     .pipe($.autoprefixer('last 2 version'))
     .pipe(gulp.dest(PUB_STYLES))
     .pipe($.rename({
